@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LevelUp Fitness — Join Early Access ⚔️</title>
+<meta name="description" content="The only fitness app where skipping leg day has consequences. Level up 7 body parts, defend your town from the Couch Potato horde. Free early access." />
+
+<meta property="og:title" content="LevelUp Fitness — Work out. Or watch your village burn. ⚔️" />
+<meta property="og:description" content="Turn workouts into an RPG. Level up 7 body parts, morph toward peak fit, and defend your town from the Couch Potato horde. Skip a day → they raid you." />
+<meta property="og:type" content="website" />
+
+<style>
+  :root {
+    --bg: #0a0612;
+    --bg2: #140a24;
+    --panel: rgba(24, 14, 42, 0.78);
+    --gold: #ffca3a;
+    --gold-deep: #e0a020;
+    --purple: #8a4fff;
+    --ember: #ff5e3a;
+    --text: #f3ecff;
+    --muted: #b6a8d4;
+    --ok: #37d67a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "Trebuchet MS", "Segoe UI", system-ui, sans-serif;
+    background:
+      radial-gradient(1200px 700px at 50% -10%, rgba(138,79,255,0.28), transparent 60%),
+      radial-gradient(900px 600px at 90% 20%, rgba(255,94,58,0.20), transparent 60%),
+      linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.5;
+    overflow-x: hidden;
+  }
+  .wrap { max-width: 820px; margin: 0 auto; padding: 0 22px; }
+
+  /* ---------- HERO SCENE ---------- */
+  .scene {
+    position: relative;
+    width: 100%;
+    max-width: 820px;
+    margin: 0 auto;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border-bottom: 2px solid rgba(255,94,58,0.35);
+    box-shadow: 0 30px 80px -30px rgba(255,94,58,0.5);
+  }
+  .scene svg { display: block; width: 100%; height: 100%; }
+
+  /* floating comic phrases over the scene */
+  .barks { position: absolute; inset: 0; pointer-events: none; }
+  .bark {
+    position: absolute;
+    font-weight: 900;
+    font-size: clamp(0.7rem, 1.8vw, 1rem);
+    padding: 5px 11px;
+    border-radius: 12px;
+    white-space: nowrap;
+    transform: rotate(-4deg);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.5);
+    animation: bob 3s ease-in-out infinite;
+  }
+  .bark.hero { top: 2%; left: 2%; background: var(--gold); color: #2a1a00; z-index: 4; }
+  .bark.villain { top: 4%; right: 2%; background: #7a3b1a; color: #ffd9c2; transform: rotate(5deg); animation-delay: .6s; z-index: 4; }
+  .bark.mid { bottom: -6px; left: 50%; margin-left: -110px; background: var(--ember); color: #fff; transform: rotate(-2deg); animation-delay: 1.1s; z-index: 4; }
+  @media (max-width: 560px) { .bark { font-size: 0.62rem; padding: 4px 8px; } .bark.mid { display: none; } }
+  @keyframes bob { 0%,100%{ transform: translateY(0) rotate(var(--r,-4deg)); } 50%{ transform: translateY(-6px) rotate(var(--r,-4deg)); } }
+
+  .scene-caption {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    text-align: center;
+    padding: 40px 16px 14px;
+    background: linear-gradient(180deg, transparent, rgba(10,6,18,0.92));
+    font-weight: 800;
+    font-size: clamp(0.85rem, 2.4vw, 1.15rem);
+    color: var(--text);
+    text-shadow: 0 2px 10px #000;
+  }
+
+  /* ---------- PHONE-FRAMED APP SCREENSHOTS ---------- */
+  .phone {
+    position: relative;
+    border-radius: 34px;
+    padding: 9px;
+    background: linear-gradient(160deg, #2a2140, #120a20);
+    box-shadow: 0 30px 70px -24px rgba(0,0,0,0.85), 0 0 0 1px rgba(138,79,255,0.28), inset 0 1px 0 rgba(255,255,255,0.06);
+  }
+  .phone::before {
+    content: ""; position: absolute; top: 16px; left: 50%; transform: translateX(-50%);
+    width: 78px; height: 6px; border-radius: 999px; background: rgba(0,0,0,0.55); z-index: 3;
+  }
+  .phone img {
+    display: block; width: 100%; height: auto; border-radius: 26px;
+    border: 1px solid rgba(0,0,0,0.5);
+  }
+  .phone .glare {
+    position: absolute; inset: 9px; border-radius: 26px; pointer-events: none;
+    background: linear-gradient(135deg, rgba(255,255,255,0.10), transparent 40%);
+  }
+
+  /* hero: two phones side-by-side (hero shot leads, siege behind) */
+  .hero-shots {
+    position: relative; width: 100%; max-width: 760px; margin: 0 auto;
+    display: flex; justify-content: center; align-items: flex-end;
+    gap: clamp(6px, 2vw, 22px);
+    padding: 46px 24px 0;
+    min-height: 0;
+  }
+  .hero-shots .phone { flex: 0 0 auto; }
+  .hero-shots .phone.lead { width: clamp(200px, 34%, 290px); z-index: 2; }
+  .hero-shots .phone.side {
+    width: clamp(130px, 26%, 210px); margin-bottom: 30px;
+    transform: rotate(6deg); opacity: 0.96; z-index: 1;
+  }
+  .hero-shots .phone.side.left { transform: rotate(-6deg); }
+  @media (max-width: 560px) {
+    .hero-shots { padding: 30px 16px 0; }
+    .hero-shots .phone.side { display: none !important; }
+    .hero-shots .phone.lead { width: min(300px, 74vw); }
+  }
+
+  /* screenshot showcase strip (level-up + workout) */
+  .shot-showcase {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 34px 26px; margin-top: 34px; align-items: start;
+  }
+  .shot-item { text-align: center; }
+  .shot-item .phone { width: min(260px, 80%); margin: 0 auto; }
+  .shot-item h4 { margin-top: 16px; font-size: 1.02rem; font-weight: 800; color: var(--gold); }
+  .shot-item p { margin-top: 4px; color: var(--muted); font-size: 0.9rem; max-width: 300px; margin-left:auto; margin-right:auto; }
+
+  /* ---------- HERO TEXT ---------- */
+  header { text-align: center; padding: 34px 0 22px; }
+  .kicker {
+    display: inline-block; font-size: 0.78rem; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--gold);
+    border: 1px solid rgba(255,202,58,0.4); padding: 6px 14px; border-radius: 999px;
+    background: rgba(255,202,58,0.06); margin-bottom: 22px;
+  }
+  h1 {
+    font-size: clamp(2rem, 6vw, 3.4rem); line-height: 1.08; font-weight: 900;
+    letter-spacing: -0.5px; text-shadow: 0 0 32px rgba(138,79,255,0.4);
+  }
+  h1 .flame {
+    background: linear-gradient(180deg, #ffd76a, var(--ember));
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .subhead { font-size: clamp(1.05rem, 2.6vw, 1.3rem); color: var(--muted); max-width: 580px; margin: 20px auto 0; }
+  .subhead .noskip { color: var(--gold); font-weight: 700; }
+
+  /* ---------- SIGNUP ---------- */
+  .signup {
+    margin: 32px auto 0; max-width: 520px; background: var(--panel);
+    border: 1px solid rgba(138,79,255,0.35); border-radius: 18px; padding: 26px 24px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 24px 60px -20px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+  .scarcity {
+    display: inline-block; font-size: 0.74rem; font-weight: 800; letter-spacing: 0.04em;
+    color: #ffd9c2; background: rgba(255,94,58,0.16); border: 1px solid rgba(255,94,58,0.4);
+    padding: 5px 12px; border-radius: 999px; margin-bottom: 14px;
+  }
+  .signup h2 { font-size: 1.15rem; margin-bottom: 4px; }
+  .signup p.small { color: var(--muted); font-size: 0.9rem; margin-bottom: 16px; }
+  form { display: flex; gap: 10px; flex-wrap: wrap; }
+  input[type="email"] {
+    flex: 1 1 220px; padding: 15px 16px; border-radius: 12px;
+    border: 1px solid rgba(182,168,212,0.35); background: rgba(10,6,18,0.6);
+    color: var(--text); font-size: 1rem; outline: none; transition: border-color .18s, box-shadow .18s;
+  }
+  input[type="email"]::placeholder { color: #7f7299; }
+  input[type="email"]:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(255,202,58,0.18); }
+  button {
+    flex: 1 1 100%; padding: 15px 20px; border: none; border-radius: 12px;
+    background: linear-gradient(180deg, var(--gold), var(--gold-deep)); color: #2a1a00;
+    font-weight: 800; font-size: 1.02rem; cursor: pointer; letter-spacing: 0.02em;
+    transition: transform .12s, filter .18s; box-shadow: 0 10px 26px -8px rgba(255,202,58,0.55);
+  }
+  button:hover { transform: translateY(-1px); filter: brightness(1.06); }
+  button:active { transform: translateY(0); }
+  @media (min-width: 520px) { button { flex: 0 0 auto; } }
+  .assurance { margin-top: 12px; font-size: 0.82rem; color: #8a7ca8; text-align: center; }
+  .success { display: none; text-align: center; padding: 8px 0; }
+  .success.show { display: block; }
+  .success .big { font-size: 1.3rem; font-weight: 800; color: var(--ok); }
+  .success .sub { color: var(--muted); margin-top: 6px; font-size: 0.95rem; }
+  .proof {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    margin-top: 16px; padding-top: 14px; border-top: 1px solid rgba(138,79,255,0.18);
+    font-size: 0.82rem; color: var(--muted);
+  }
+  .avatars { display: inline-flex; }
+  .avatars i {
+    width: 24px; height: 24px; border-radius: 50%; display: inline-block; margin-left: -8px;
+    border: 2px solid var(--bg2); background: linear-gradient(135deg, #8a4fff, #ff5e3a);
+  }
+  .avatars i:first-child { margin-left: 0; }
+  .avatars i:nth-child(2){ background: linear-gradient(135deg,#ffca3a,#e0a020);} 
+  .avatars i:nth-child(3){ background: linear-gradient(135deg,#37d67a,#1a6fd0);} 
+  .avatars i:nth-child(4){ background: linear-gradient(135deg,#ff5e3a,#8a4fff);} 
+  .avatars i:nth-child(5){ background: linear-gradient(135deg,#8a4fff,#37d67a);}
+
+  /* ---------- STAKES CARDS ---------- */
+  section.stakes { padding: 56px 0 20px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 28px; }
+  .card {
+    background: rgba(20,10,36,0.55); border: 1px solid rgba(138,79,255,0.22);
+    border-radius: 16px; padding: 22px 20px; transition: transform .16s, border-color .16s; position: relative;
+  }
+  .card:hover { transform: translateY(-3px); border-color: rgba(255,202,58,0.45); }
+  .card .emoji { font-size: 1.7rem; }
+  .card h3 { margin: 10px 0 6px; font-size: 1.08rem; }
+  .card p { color: var(--muted); font-size: 0.94rem; }
+  .card .joke { margin-top: 10px; font-size: 0.8rem; color: var(--gold); font-style: italic; font-weight: 600; }
+  .section-title { text-align: center; font-size: clamp(1.5rem, 4vw, 2.1rem); font-weight: 900; }
+  .section-sub { text-align:center; color: var(--muted); margin-top: 10px; }
+
+  /* ---------- VILLAIN LINEUP ---------- */
+  .lineup {
+    margin-top: 56px; text-align: center;
+    background: linear-gradient(180deg, rgba(255,94,58,0.10), rgba(199,154,74,0.06));
+    border: 1px solid rgba(255,94,58,0.25); border-radius: 18px; padding: 30px 20px 24px;
+  }
+  .lineup h3 { font-size: 1.4rem; margin-bottom: 4px; }
+  .lineup .sub { color: var(--muted); max-width: 500px; margin: 6px auto 18px; }
+  .potatoes { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+  .potatoes svg { width: 74px; height: 74px; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.5)); transition: transform .2s; }
+  .potatoes svg:hover { transform: translateY(-6px) rotate(-6deg); }
+  .potato-names { margin-top: 12px; color: #d9b78a; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.02em; }
+
+  /* ---------- COUCH-POTATO BACKSTORY CARDS ---------- */
+  .backstories {
+    margin-top: 26px; display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px; text-align: left;
+  }
+  .bs-card {
+    background: rgba(20,10,36,0.6); border: 1px solid rgba(255,94,58,0.22);
+    border-radius: 16px; padding: 20px 20px 18px; position: relative;
+    transition: transform .16s, border-color .16s;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .bs-card:hover { transform: translateY(-3px); border-color: rgba(255,202,58,0.45); }
+  .bs-head { display: flex; align-items: center; gap: 12px; }
+  .bs-head svg { width: 46px; height: 46px; flex: 0 0 auto; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.45)); }
+  .bs-name { font-size: 1.05rem; font-weight: 900; color: var(--gold); line-height: 1.1; }
+  .bs-tag {
+    display: inline-block; margin-top: 3px; font-size: 0.68rem; font-weight: 800;
+    letter-spacing: 0.04em; text-transform: uppercase; color: #ffd9c2;
+    background: rgba(255,94,58,0.16); border: 1px solid rgba(255,94,58,0.4);
+    padding: 3px 9px; border-radius: 999px;
+  }
+  .bs-card p { color: var(--muted); font-size: 0.92rem; line-height: 1.5; }
+  .bs-card .why { color: #f3ecff; font-weight: 600; font-style: italic; margin-top: 2px; }
+
+  /* ---------- FINAL ---------- */
+  /* FAQ */
+  section.faq { padding: 56px 0 10px; }
+  .faq-list { max-width: 620px; margin: 26px auto 0; display: flex; flex-direction: column; gap: 12px; }
+  details {
+    background: rgba(20,10,36,0.55); border: 1px solid rgba(138,79,255,0.22);
+    border-radius: 14px; padding: 4px 18px; transition: border-color .16s;
+  }
+  details[open] { border-color: rgba(255,202,58,0.4); }
+  summary {
+    cursor: pointer; padding: 14px 0; font-weight: 700; font-size: 1rem; list-style: none;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; color: var(--gold); font-size: 1.3rem; font-weight: 800; }
+  details[open] summary::after { content: "–"; }
+  details p { color: var(--muted); font-size: 0.94rem; padding: 0 0 16px; }
+
+  .final { text-align: center; padding: 56px 0 20px; }
+  .btn-anchor {
+    display: inline-block; margin-top: 22px; padding: 16px 34px; border-radius: 14px;
+    background: linear-gradient(180deg, var(--gold), var(--gold-deep)); color: #2a1a00;
+    font-weight: 800; text-decoration: none; font-size: 1.05rem;
+    box-shadow: 0 12px 30px -8px rgba(255,202,58,0.5); transition: transform .12s, filter .18s;
+  }
+  .btn-anchor:hover { transform: translateY(-2px); filter: brightness(1.06); }
+  footer { text-align: center; color: #6f6390; font-size: 0.82rem; padding: 50px 0 40px; }
+  footer .tag { color: var(--gold); font-weight: 700; }
+
+  /* fire flicker */
+  @keyframes flicker { 0%,100%{ opacity: .9; } 50%{ opacity: .55; } }
+  .flame-anim { animation: flicker 1.4s ease-in-out infinite; transform-origin: bottom center; }
+  .flame-anim.d1 { animation-delay: .3s; }
+  .flame-anim.d2 { animation-delay: .7s; }
+  .flame-anim.d3 { animation-delay: 1s; }
+  @keyframes swing { 0%,100%{ transform: rotate(0deg);} 50%{ transform: rotate(-8deg);} }
+  .hero-arm { animation: swing 2.2s ease-in-out infinite; transform-origin: 50% 40%; }
+  @keyframes wobble { 0%,100%{ transform: translateY(0);} 50%{ transform: translateY(-4px);} }
+  .wob { animation: wobble 2s ease-in-out infinite; }
+  /* aura pulse */
+  @keyframes auraPulse { 0%,100%{ opacity: .75; transform: scale(1);} 50%{ opacity: 1; transform: scale(1.05);} }
+  .aura-pulse { animation: auraPulse 2.4s ease-in-out infinite; transform-origin: 0px -40px; }
+  /* sword gleam sweep */
+  @keyframes gleamSweep { 0%,70%,100%{ opacity: 0; transform: translateX(-6px);} 82%{ opacity: 1; transform: translateX(0);} }
+  .gleam { animation: gleamSweep 3.4s ease-in-out infinite; }
+  /* hero idle breathing */
+  @keyframes breathe { 0%,100%{ transform: translateY(0) scale(1);} 50%{ transform: translateY(-3px) scale(1.012);} }
+  .hero-breathe { animation: breathe 3.2s ease-in-out infinite; transform-origin: 250px 470px; }
+  /* villains creep forward */
+  @keyframes creep { 0%,100%{ transform: translateX(0) translateY(0);} 50%{ transform: translateX(-6px) translateY(-3px);} }
+  .creep { animation: creep 2.6s ease-in-out infinite; }
+  .creep.c1 { animation-delay: .2s; } .creep.c2 { animation-delay: .9s; } .creep.c3 { animation-delay: 1.4s; }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+</style>
+</head>
+<body>
+
+<!-- ============ HERO — REAL APP SCREENSHOTS ============ -->
+<div class="scene" style="aspect-ratio:auto; overflow:visible; border-bottom:none; box-shadow:none;">
+  <div class="hero-shots">
+    <div class="phone side left">
+      <img src="shots/levelup-siege.png" width="780" height="1688" loading="lazy"
+           alt="LevelUp app — your village under siege by the Couch Potato horde, on fire, HP dropping" />
+      <span class="glare"></span>
+    </div>
+    <div class="phone lead">
+      <img src="shots/levelup-hero.png" width="780" height="1688"
+           alt="LevelUp app home screen — your hero avatar and your thriving village kingdom" />
+      <span class="glare"></span>
+    </div>
+    <div class="phone side">
+      <img src="shots/levelup-levelup.png" width="780" height="1688" loading="lazy"
+           alt="LevelUp app — level-up moment, glowing hero, XP bar filling, new quest unlocked" />
+      <span class="glare"></span>
+    </div>
+  </div>
+
+  <!-- comic barks over the scene -->
+  <div class="barks">
+    <span class="bark hero" style="--r:-4deg">"It's giving… gains." 💪</span>
+    <span class="bark villain" style="--r:5deg">"We live in a society (of naps)." 🥔</span>
+  </div>
+</div>
+<div class="scene-caption" style="position:static; background:none; padding:26px 16px 4px;">Real screens from the app. Skip leg day → the Couch Potatoes raid your kingdom. ⚔️</div>
+
+<template id="old-scene-art"><svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" role="img" aria-label="A buff Super Saiyan style chibi hero defends a burning kingdom from five couch potato villains, pop-comic background">
+    <defs>
+      <!-- DBZ-chibi pop-comic style: bold dark-brown outlines, flat cel shading (base + 1 shadow tone), gold SSJ spikes, huge glinting eyes, halftone + star collage backdrop. -->
+      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#ffcf6b"/>
+        <stop offset="0.45" stop-color="#ff9a3c"/>
+        <stop offset="1" stop-color="#e2532a"/>
+      </linearGradient>
+      <radialGradient id="glow" cx="0.5" cy="0.95" r="0.9">
+        <stop offset="0" stop-color="#fff1a8" stop-opacity="0.7"/>
+        <stop offset="1" stop-color="#fff1a8" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="fire" x1="0" y1="1" x2="0" y2="0">
+        <stop offset="0" stop-color="#ffe23a"/>
+        <stop offset="0.5" stop-color="#ff7a2a"/>
+        <stop offset="1" stop-color="#ff2a2a"/>
+      </linearGradient>
+      <pattern id="halftone" width="18" height="18" patternUnits="userSpaceOnUse">
+        <circle cx="4" cy="4" r="3.2" fill="#8bc63e"/>
+      </pattern>
+      <pattern id="halftone2" width="22" height="22" patternUnits="userSpaceOnUse">
+        <circle cx="5" cy="5" r="3" fill="#f5f0dc" opacity="0.5"/>
+      </pattern>
+      <!-- hero skin tone: warm tan base with a soft top-light -->
+      <radialGradient id="skin" cx="0.4" cy="0.3" r="0.9">
+        <stop offset="0" stop-color="#ffe6c4"/>
+        <stop offset="0.55" stop-color="#f6bc82"/>
+        <stop offset="1" stop-color="#dd9a5c"/>
+      </radialGradient>
+      <!-- metallic gold SSJ hair -->
+      <linearGradient id="hairG" x1="0.2" y1="0" x2="0.8" y2="1">
+        <stop offset="0" stop-color="#fff7c6"/>
+        <stop offset="0.4" stop-color="#ffd23f"/>
+        <stop offset="0.75" stop-color="#f2a416"/>
+        <stop offset="1" stop-color="#c9760a"/>
+      </linearGradient>
+      <!-- glossy orange gi -->
+      <linearGradient id="giG" x1="0.15" y1="0" x2="0.85" y2="1">
+        <stop offset="0" stop-color="#ffb85c"/>
+        <stop offset="0.5" stop-color="#f7931e"/>
+        <stop offset="1" stop-color="#cf640e"/>
+      </linearGradient>
+      <linearGradient id="blueG" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#4d92d6"/>
+        <stop offset="1" stop-color="#234f86"/>
+      </linearGradient>
+      <!-- blade steel sheen -->
+      <linearGradient id="bladeG" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#9fb2d8"/>
+        <stop offset="0.45" stop-color="#ffffff"/>
+        <stop offset="0.6" stop-color="#dfe7f6"/>
+        <stop offset="1" stop-color="#8496c2"/>
+      </linearGradient>
+      <!-- villain green radials -->
+      <radialGradient id="taterR" cx="0.36" cy="0.28" r="0.9">
+        <stop offset="0" stop-color="#c2ea62"/>
+        <stop offset="0.55" stop-color="#8bc63e"/>
+        <stop offset="1" stop-color="#456f22"/>
+      </radialGradient>
+      <radialGradient id="taterR2" cx="0.36" cy="0.28" r="0.9">
+        <stop offset="0" stop-color="#aede54"/>
+        <stop offset="0.55" stop-color="#7cb342"/>
+        <stop offset="1" stop-color="#38601c"/>
+      </radialGradient>
+      <!-- SSJ aura glow -->
+      <radialGradient id="auraG" cx="0.5" cy="0.55" r="0.6">
+        <stop offset="0" stop-color="#fff7c0" stop-opacity="0.85"/>
+        <stop offset="0.6" stop-color="#ffd23f" stop-opacity="0.45"/>
+        <stop offset="1" stop-color="#ffd23f" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="stoneG" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#7d6486"/>
+        <stop offset="1" stop-color="#4a3654"/>
+      </linearGradient>
+      <!-- soft drop shadow + blur filters -->
+      <filter id="softshadow" x="-30%" y="-30%" width="160%" height="160%">
+        <feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#2b1d14" flood-opacity="0.4"/>
+      </filter>
+      <filter id="softblur" x="-25%" y="-25%" width="150%" height="150%">
+        <feGaussianBlur stdDeviation="2.6"/>
+      </filter>
+    </defs>
+
+    <!-- ===== POP-COMIC BACKGROUND COLLAGE ===== -->
+    <rect width="800" height="500" fill="url(#sky)"/>
+    <!-- diagonal color-block panels -->
+    <polygon points="0,0 260,0 60,500 0,500" fill="#3aa6a0" opacity="0.55"/>
+    <polygon points="0,0 150,0 0,320" fill="#8bc63e" opacity="0.5"/>
+    <polygon points="800,500 560,500 760,0 800,0" fill="#f5f0dc" opacity="0.35"/>
+    <polygon points="800,500 640,500 780,120 800,120" fill="#3aa6a0" opacity="0.4"/>
+    <!-- halftone dot fields -->
+    <rect x="520" y="40" width="280" height="220" fill="url(#halftone)" opacity="0.5"/>
+    <rect x="0" y="300" width="240" height="200" fill="url(#halftone2)" opacity="0.6"/>
+    <!-- scattered comic stars -->
+    <g stroke="#2b1d14" stroke-width="4" stroke-linejoin="round">
+      <polygon points="60,60 70,84 96,84 75,100 84,126 60,110 36,126 45,100 24,84 50,84" fill="#ffd23f"/>
+      <polygon points="730,300 738,318 758,318 742,330 749,350 730,338 711,350 718,330 702,318 722,318" fill="#8bc63e"/>
+      <polygon points="700,420 707,436 725,436 711,447 717,464 700,453 683,464 689,447 675,436 693,436" fill="#f7931e"/>
+      <polygon points="150,420 157,436 175,436 161,447 167,464 150,453 133,464 139,447 125,436 143,436" fill="#e63946" opacity="0.9"/>
+    </g>
+    <!-- little sparkle twinkles -->
+    <g fill="#fff">
+      <path class="wob" d="M300 40 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4z"/>
+      <path class="wob" d="M470 60 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3z"/>
+      <path class="wob" d="M120 200 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3z"/>
+    </g>
+
+    <rect width="800" height="500" fill="url(#glow)"/>
+
+    <!-- floating embers -->
+    <g fill="#ffb347">
+      <circle class="wob" cx="120" cy="90" r="3"/>
+      <circle class="wob" cx="300" cy="60" r="2"/>
+      <circle class="wob" cx="520" cy="110" r="3"/>
+      <circle class="wob" cx="680" cy="70" r="2"/>
+      <circle class="wob" cx="420" cy="130" r="2.5"/>
+      <circle class="wob" cx="220" cy="150" r="2"/>
+    </g>
+
+    <!-- ===== BURNING CRUMBLING KINGDOM (bold outlined, DBZ-comic style so it reads over the busy backdrop) ===== -->
+    <g opacity="0.98" stroke="#2b1d14" stroke-width="4" stroke-linejoin="round">
+      <!-- back towers -->
+      <rect x="60" y="150" width="70" height="190" fill="#6a5270"/>
+      <polygon points="53,150 95,106 137,150" fill="#4a3a54"/>
+      <rect x="70" y="180" width="18" height="26" fill="#2b1d14" stroke="none"/>
+      <rect x="150" y="118" width="58" height="222" fill="#6a5270"/>
+      <polygon points="143,118 179,74 213,118" fill="#4a3a54"/>
+      <rect x="168" y="150" width="20" height="28" fill="#2b1d14" stroke="none"/>
+      <!-- crumbling battlement wall -->
+      <rect x="-4" y="250" width="810" height="92" fill="#5a4560"/>
+      <rect x="0" y="234" width="32" height="20" fill="#5a4560"/>
+      <rect x="64" y="234" width="32" height="20" fill="#5a4560"/>
+      <rect x="140" y="234" width="32" height="20" fill="#5a4560"/>
+      <rect x="620" y="234" width="32" height="20" fill="#5a4560"/>
+      <rect x="700" y="234" width="32" height="20" fill="#5a4560"/>
+      <!-- broken gap -->
+      <polygon points="250,250 300,250 285,304 240,322 250,250" fill="#2b1d14"/>
+      <!-- right tower toppling -->
+      <g transform="rotate(12 660 150)">
+        <rect x="628" y="128" width="64" height="212" fill="#6a5270"/>
+        <polygon points="622,128 660,86 698,128" fill="#4a3a54"/>
+      </g>
+      <!-- falling debris blocks -->
+      <rect x="330" y="198" width="20" height="20" fill="#6a5270" transform="rotate(20 340 208)"/>
+      <rect x="470" y="178" width="16" height="16" fill="#6a5270" transform="rotate(-15 478 186)"/>
+      <rect x="560" y="208" width="18" height="18" fill="#6a5270" transform="rotate(30 569 217)"/>
+
+      <!-- FLAMES on the kingdom -->
+      <g class="flame-anim">
+        <path d="M90 150 q-14 -30 4 -50 q6 22 18 20 q-8 18 6 34 q-16 8 -28 -4z" fill="url(#fire)"/>
+      </g>
+      <g class="flame-anim d1">
+        <path d="M177 120 q-16 -34 6 -56 q7 24 20 22 q-9 20 7 38 q-18 9 -33 -4z" fill="url(#fire)"/>
+      </g>
+      <g class="flame-anim d2">
+        <path d="M655 130 q-16 -34 6 -56 q7 24 20 22 q-9 20 7 38 q-18 9 -33 -4z" fill="url(#fire)"/>
+      </g>
+      <g class="flame-anim d3">
+        <path d="M400 250 q-12 -26 4 -44 q6 20 16 18 q-7 16 5 30 q-14 7 -25 -4z" fill="url(#fire)"/>
+      </g>
+      <g class="flame-anim">
+        <path d="M270 250 q-12 -26 4 -44 q6 20 16 18 q-7 16 5 30 q-14 7 -25 -4z" fill="url(#fire)"/>
+      </g>
+    </g>
+
+    <!-- ground -->
+    <rect x="0" y="340" width="800" height="160" fill="#3a2418"/>
+    <rect x="0" y="340" width="800" height="12" fill="#5a3a24"/>
+    <ellipse cx="400" cy="474" rx="360" ry="36" fill="#2a1810" opacity="0.5"/>
+
+    <!-- ===== 5 COUCH POTATO VILLAINS (DBZ-chibi: bold brown outline, cel-shaded 2-tone, big glinting eyes) ===== -->
+    <!-- OUT stroke = #2b1d14, base tater + darker shadow crescent + eye glints -->
+    <g class="wob">
+      <!-- v1 -->
+      <g transform="translate(560 378) scale(0.95)" stroke="#2b1d14" stroke-width="5.5" stroke-linejoin="round" filter="url(#softshadow)">
+        <ellipse cx="0" cy="0" rx="33" ry="38" fill="url(#taterR)"/>
+        <ellipse cx="-11" cy="-16" rx="12" ry="8" fill="#fff" opacity="0.3" stroke="none" filter="url(#softblur)"/>
+        <!-- big glinting eyes -->
+        <ellipse cx="-11" cy="-6" rx="9" ry="11" fill="#fff"/><ellipse cx="12" cy="-8" rx="9" ry="11" fill="#fff"/>
+        <path d="M-20 -14 q9 -6 18 0" fill="none" stroke-width="5"/><path d="M3 -16 q9 -6 18 0" fill="none" stroke-width="5"/>
+        <circle cx="-10" cy="-3" r="4" fill="#2b1d14" stroke="none"/><circle cx="13" cy="-5" r="4" fill="#2b1d14" stroke="none"/>
+        <circle cx="-12" cy="-6" r="1.6" fill="#fff" stroke="none"/><circle cx="11" cy="-8" r="1.6" fill="#fff" stroke="none"/>
+        <path d="M-13 16 q13 9 26 0" fill="none"/>
+        <path d="M-28 18 l-13 12 M26 20 l13 10" fill="none" stroke-width="4"/>
+      </g>
+    </g>
+    <g class="wob">
+      <!-- v2 (front, biggest, angry) -->
+      <g transform="translate(498 398) scale(1.15)" stroke="#2b1d14" stroke-width="5.5" stroke-linejoin="round" filter="url(#softshadow)">
+        <ellipse cx="0" cy="0" rx="35" ry="41" fill="url(#taterR2)"/>
+        <ellipse cx="-12" cy="-18" rx="13" ry="9" fill="#fff" opacity="0.3" stroke="none" filter="url(#softblur)"/>
+        <ellipse cx="-12" cy="-6" rx="10" ry="12" fill="#fff"/><ellipse cx="13" cy="-8" rx="10" ry="12" fill="#fff"/>
+        <path d="M-24 -14 l22 8" fill="none" stroke-width="6.5"/><path d="M25 -16 l-22 8" fill="none" stroke-width="6.5"/>
+        <circle cx="-10" cy="-3" r="4.5" fill="#c62828" stroke="none"/><circle cx="15" cy="-5" r="4.5" fill="#c62828" stroke="none"/>
+        <circle cx="-12" cy="-5" r="1.7" fill="#fff" stroke="none"/><circle cx="13" cy="-7" r="1.7" fill="#fff" stroke="none"/>
+        <path d="M-15 18 q15 12 30 0 q-6 -8 -15 -8 q-9 0 -15 8z" fill="#3a1010"/>
+        <path d="M-30 20 l-16 14 M28 22 l16 12" fill="none" stroke-width="4"/>
+        <path d="M46 16 l18 -8 M46 22 l18 -2 M46 28 l18 4" fill="none" stroke-width="3.5"/>
+      </g>
+    </g>
+    <g class="wob">
+      <!-- v3 -->
+      <g transform="translate(642 400) scale(0.9)" stroke="#2b1d14" stroke-width="5.5" stroke-linejoin="round" filter="url(#softshadow)">
+        <ellipse cx="0" cy="0" rx="31" ry="36" fill="url(#taterR)"/>
+        <ellipse cx="-10" cy="-15" rx="11" ry="7" fill="#fff" opacity="0.3" stroke="none" filter="url(#softblur)"/>
+        <ellipse cx="-10" cy="-5" rx="9" ry="11" fill="#fff"/><ellipse cx="11" cy="-7" rx="9" ry="11" fill="#fff"/>
+        <path d="M-19 -13 q9 -6 18 0" fill="none" stroke-width="5"/><path d="M2 -15 q9 -6 18 0" fill="none" stroke-width="5"/>
+        <circle cx="-9" cy="-3" r="4" fill="#2b1d14" stroke="none"/><circle cx="12" cy="-5" r="4" fill="#2b1d14" stroke="none"/>
+        <circle cx="-11" cy="-5" r="1.6" fill="#fff" stroke="none"/><circle cx="10" cy="-7" r="1.6" fill="#fff" stroke="none"/>
+        <path d="M-12 15 q12 8 24 0" fill="none"/>
+        <path d="M-26 17 l-13 11 M24 19 l13 9" fill="none" stroke-width="4"/>
+      </g>
+    </g>
+    <g class="wob">
+      <!-- v4 small, derpy -->
+      <g transform="translate(712 420) scale(0.72)" stroke="#2b1d14" stroke-width="5.5" stroke-linejoin="round" filter="url(#softshadow)">
+        <ellipse cx="0" cy="0" rx="30" ry="35" fill="url(#taterR)"/>
+        <ellipse cx="-10" cy="-5" rx="9" ry="11" fill="#fff"/><ellipse cx="11" cy="-6" rx="9" ry="11" fill="#fff"/>
+        <path d="M-19 -13 q9 -6 18 0" fill="none" stroke-width="5"/><path d="M2 -14 q9 -6 18 0" fill="none" stroke-width="5"/>
+        <circle cx="-6" cy="-3" r="3.6" fill="#2b1d14" stroke="none"/><circle cx="8" cy="-3" r="3.6" fill="#2b1d14" stroke="none"/>
+        <path d="M-9 16 q10 5 20 0" fill="none"/>
+      </g>
+    </g>
+    <g class="wob">
+      <!-- v5 back -->
+      <g transform="translate(762 380) scale(0.6)" stroke="#2b1d14" stroke-width="5.5" stroke-linejoin="round" filter="url(#softshadow)">
+        <ellipse cx="0" cy="0" rx="29" ry="34" fill="url(#taterR2)"/>
+        <ellipse cx="-9" cy="-4" rx="8" ry="10" fill="#fff"/><ellipse cx="10" cy="-6" rx="8" ry="10" fill="#fff"/>
+        <circle cx="-8" cy="-3" r="3.6" fill="#2b1d14" stroke="none"/><circle cx="11" cy="-5" r="3.6" fill="#2b1d14" stroke="none"/>
+        <path d="M-9 14 q10 6 20 0" fill="none"/>
+      </g>
+    </g>
+
+    <!-- ===== BUFF SUPER-SAIYAN CHIBI HERO (polished vector: gradient shading, rim light, hair detail, glossy highlights) ===== -->
+    <g transform="translate(250 348)" stroke="#2b1d14" stroke-width="6" stroke-linejoin="round" filter="url(#softshadow)">
+      <!-- golden SSJ aura: soft radial glow + spiky flame outline -->
+      <ellipse class="aura-pulse" cx="0" cy="-40" rx="96" ry="120" fill="url(#auraG)" stroke="none"/>
+      <path class="aura-pulse" d="M0 -134 l18 42 46 -18 -32 42 42 30 -50 6 8 52 -32 -36 -32 36 8 -52 -50 -6 42 -30 -32 -42 46 18z" fill="#ffe23a" opacity="0.28" stroke="none"/>
+      <!-- shadow -->
+      <ellipse cx="0" cy="124" rx="72" ry="14" fill="#2b1d14" opacity="0.28" stroke="none"/>
+      <!-- stubby thick legs (glossy gi) -->
+      <path d="M-24 56 q-8 34 -6 54 l22 0 q0 -30 4 -50z" fill="url(#giG)"/>
+      <path d="M24 56 q8 34 6 54 l-22 0 q0 -30 -4 -50z" fill="url(#giG)"/>
+      <path d="M-20 90 q-4 12 -4 20" fill="none" stroke-width="3.5"/>
+      <!-- leg highlight -->
+      <path d="M-20 60 q-5 26 -4 46" fill="none" stroke="#ffd9a0" stroke-width="3" opacity="0.6"/>
+      <!-- boots -->
+      <path d="M-30 108 q-2 12 4 14 l20 0 0 -16z" fill="url(#blueG)"/>
+      <path d="M30 108 q2 12 -4 14 l-20 0 0 -16z" fill="url(#blueG)"/>
+      <!-- barrel torso (glossy orange gi) -->
+      <path d="M0 -20 q-48 6 -48 50 q2 30 48 32 q46 -2 48 -32 q0 -44 -48 -50z" fill="url(#giG)"/>
+      <!-- soft core shadow (blurred) -->
+      <path d="M20 -16 q28 12 28 48 q-2 24 -28 30 q20 -40 0 -78z" fill="#c0640f" opacity="0.55" stroke="none" filter="url(#softblur)"/>
+      <!-- top rim light on shoulders -->
+      <path d="M-40 -12 q40 -22 80 0" fill="none" stroke="#ffe0a8" stroke-width="4" opacity="0.7"/>
+      <!-- blue undershirt V (glossy) -->
+      <path d="M-18 -16 q18 30 36 0 l0 20 q-18 20 -36 0z" fill="url(#blueG)"/>
+      <path d="M-14 -14 q14 20 28 0" fill="none" stroke="#8ec0ee" stroke-width="2.5" opacity="0.7"/>
+      <path d="M0 4 l0 46" fill="none" stroke-width="4"/>
+      <path d="M-26 8 q26 12 52 0" fill="none" stroke-width="4"/>
+      <!-- LEFT arm: flexed bicep raised in a fist-pump + mitten fist -->
+      <g class="hero-arm">
+        <path d="M-40 6 q-40 -4 -50 -20 q-4 -18 16 -20 q22 0 34 18 q6 12 0 22z" fill="url(#skin)"/>
+        <!-- bicep soft shadow -->
+        <path d="M-58 -14 q16 -2 20 12 q-14 8 -22 -2z" fill="#cf9860" opacity="0.7" stroke="none" filter="url(#softblur)"/>
+        <!-- bicep highlight -->
+        <path d="M-52 -18 q10 -6 18 2" fill="none" stroke="#ffe8c8" stroke-width="3" opacity="0.75"/>
+        <path d="M-88 -30 q-14 -20 -6 -40 q16 -6 24 6 q6 18 -2 36z" fill="url(#skin)"/>
+        <!-- raised mitten fist -->
+        <circle cx="-96" cy="-74" r="17" fill="url(#skin)"/>
+        <circle cx="-101" cy="-79" r="5" fill="#fff" opacity="0.55" stroke="none"/>
+        <path d="M-106 -80 q4 -8 12 -6 M-104 -70 q4 6 12 4" fill="none" stroke-width="3"/>
+      </g>
+      <!-- RIGHT arm up gripping glowing sword -->
+      <path d="M44 2 q40 -18 60 -46 q12 8 8 24 q-20 24 -50 42z" fill="url(#skin)"/>
+      <path d="M50 -2 q34 -16 52 -40" fill="none" stroke="#ffe8c8" stroke-width="3" opacity="0.65"/>
+      <circle cx="110" cy="-46" r="15" fill="url(#skin)"/>
+      <g>
+        <path d="M103 -60 l16 0 0 22 -16 0z" fill="#7a5a2a"/>
+        <path d="M90 -62 l42 0 0 11 -42 0z" fill="url(#hairG)"/>
+        <path d="M111 -66 l16 -86 -32 0z" fill="url(#bladeG)"/>
+        <path d="M111 -66 l16 -86 -16 0z" fill="#aebfe8"/>
+        <!-- animated gleam sweep -->
+        <line class="gleam" x1="111" y1="-72" x2="111" y2="-144" stroke="#fff" stroke-width="3" opacity="0.9"/>
+      </g>
+      <!-- BIG round chibi head -->
+      <circle cx="0" cy="-56" r="42" fill="url(#skin)"/>
+      <!-- soft cheek shadow (blurred) -->
+      <path d="M30 -70 a42 42 0 0 1 0 40 q12 -20 0 -40z" fill="#dd9a5c" opacity="0.6" stroke="none" filter="url(#softblur)"/>
+      <!-- forehead highlight -->
+      <ellipse cx="-12" cy="-74" rx="16" ry="9" fill="#fff" opacity="0.35" stroke="none" filter="url(#softblur)"/>
+      <!-- blush -->
+      <ellipse cx="-22" cy="-42" rx="7" ry="4" fill="#ff9e7a" opacity="0.55" stroke="none"/>
+      <ellipse cx="22" cy="-42" rx="7" ry="4" fill="#ff9e7a" opacity="0.55" stroke="none"/>
+      <!-- GOLD SSJ SPIKY HAIR (metallic gradient) -->
+      <path d="M-42 -60
+        l-14 -30 20 12 -8 -34 22 22 -4 -40 20 30 6 -44 16 40 14 -34 6 40 26 -24 -8 34 24 -14 -18 32
+        q-40 -22 -80 0z" fill="url(#hairG)"/>
+      <!-- hair strand detail lines -->
+      <g fill="none" stroke="#c9760a" stroke-width="2" opacity="0.55">
+        <path d="M-30 -66 l-8 -22"/><path d="M-8 -72 l-2 -30"/><path d="M12 -74 l4 -32"/><path d="M30 -68 l10 -24"/>
+      </g>
+      <!-- hair top highlights -->
+      <g fill="none" stroke="#fff7c6" stroke-width="2.5" opacity="0.7">
+        <path d="M-18 -80 l-4 -22"/><path d="M6 -84 l2 -26"/>
+      </g>
+      <!-- hair soft core shadow -->
+      <path d="M8 -94 l14 36 24 -22 -8 32 q-22 -12 -38 -16 18 -28 6 -46z" fill="#d98a10" opacity="0.5" stroke="none" filter="url(#softblur)"/>
+      <!-- big glinting anime eyes -->
+      <ellipse cx="-16" cy="-52" rx="11" ry="14" fill="#fff"/><ellipse cx="17" cy="-52" rx="11" ry="14" fill="#fff"/>
+      <!-- heavy lash line -->
+      <path d="M-28 -60 q12 -8 24 0" fill="none" stroke-width="6"/><path d="M5 -60 q12 -8 24 0" fill="none" stroke-width="6"/>
+      <!-- determined slanted brows -->
+      <path d="M-30 -66 l20 6" fill="none" stroke-width="5"/><path d="M31 -66 l-20 6" fill="none" stroke-width="5"/>
+      <!-- blue irises + double glint -->
+      <ellipse cx="-15" cy="-50" rx="6" ry="9" fill="#29abe2" stroke="none"/><ellipse cx="18" cy="-50" rx="6" ry="9" fill="#29abe2" stroke="none"/>
+      <circle cx="-15" cy="-48" r="3" fill="#0d2a3a" stroke="none"/><circle cx="18" cy="-48" r="3" fill="#0d2a3a" stroke="none"/>
+      <circle cx="-18" cy="-54" r="2.6" fill="#fff" stroke="none"/><circle cx="15" cy="-54" r="2.6" fill="#fff" stroke="none"/>
+      <circle cx="-12" cy="-47" r="1.3" fill="#fff" stroke="none"/><circle cx="21" cy="-47" r="1.3" fill="#fff" stroke="none"/>
+      <!-- confident open grin -->
+      <path d="M-12 -32 q13 12 26 0 l0 4 q-13 8 -26 0z" fill="#fff"/>
+      <path d="M-12 -32 q13 12 26 0" fill="none" stroke-width="3"/>
+      <!-- impact burst -->
+      <g transform="translate(152 -6)" stroke="none">
+        <polygon points="0,-34 10,-10 34,-10 14,6 22,32 0,16 -22,32 -14,6 -34,-10 -10,-10" fill="#ffd23f" stroke="#2b1d14" stroke-width="4.5" stroke-linejoin="round"/>
+        <text x="0" y="9" text-anchor="middle" font-size="16" font-weight="900" fill="#e63946">POW!</text>
+      </g>
+    </g>
+  </svg></template>
+
+<!-- ============ CONTENT ============ -->
+<div class="wrap">
+
+  <header>
+    <span class="kicker">⚔️ Early Access · Free</span>
+    <h1>Work out.<br>Or watch your village <span class="flame">burn.</span> 🔥</h1>
+    <p class="subhead">
+      The only fitness app where <span class="noskip">skipping leg day has consequences.</span>
+      Your body is the main character. Your town is the lore. Don't fumble the bag. 🫡
+    </p>
+
+    <div class="signup" id="join">
+      <div class="scarcity">🔥 Founding Defender spots — early access is filling up</div>
+      <h2>Join early access</h2>
+      <p class="small">Be first through the gates. Free — no card, no cap. 🧢🚫</p>
+
+      <!--
+        EMAIL CAPTURE — provider-ready, one line to go live:
+        Replace the whole action="..." URL below with your MailerLite embedded-form
+        endpoint (Dashboard → Forms → Embedded form → the form's action URL, no secret/API
+        key needed — it's a public subscribe endpoint). MailerLite free tier = ~1k subs +
+        automation (welcome sequence). Field name stays `fields[email]` for MailerLite;
+        for Formspree/Buttondown use `email` instead (see input below).
+        While the URL still contains REPLACE_ME the form stays in an honest "opening soon"
+        state — it will NOT fake a signup or drop emails.
+      -->
+      <form id="waitlist-form" action="https://REPLACE_ME" method="POST">
+        <input type="email" name="email" placeholder="you@example.com" required autocomplete="email" />
+        <input type="hidden" name="_subject" value="New LevelUp Fitness waitlist signup ⚔️" />
+        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
+        <button type="submit">⚔️ Claim my early access</button>
+      </form>
+
+      <div class="success" id="success">
+        <div class="big">🏰 You're on the wall.</div>
+        <div class="sub">The town is counting on you. We'll ping you when the gates open. No mid entries. ✨</div>
+      </div>
+
+      <p class="assurance" id="assurance">No spam, only the launch signal. Unsubscribe anytime — we're not weird about it.</p>
+      <div class="proof">
+        <span class="avatars"><i></i><i></i><i></i><i></i><i></i></span>
+        <span>Warriors already enlisting. Your town needs you next. ⚔️</span>
+      </div>
+    </div>
+  </header>
+
+  <section class="stakes">
+    <h2 class="section-title">Fitness, but make it have stakes.</h2>
+    <p class="section-sub">Not another XP tracker. An RPG where the reps are real and the potatoes are… concerning.</p>
+
+    <div class="grid">
+      <div class="card">
+        <div class="emoji">💪</div>
+        <h3>Level 7 body parts</h3>
+        <p>Train an arm → that arm <em>grows.</em> Morph from your starting body toward peak fit, one quest at a time.</p>
+        <div class="joke">Left arm Prestige III? In this economy?? 👑</div>
+      </div>
+      <div class="card">
+        <div class="emoji">🥔</div>
+        <h3>Skip → you get raided</h3>
+        <p>Miss a workout and the Couch Potato horde storms your town, occupies your limbs, and tanks your gains.</p>
+        <div class="joke">Rent free in your calves. Literally. 🫠</div>
+      </div>
+      <div class="card">
+        <div class="emoji">👑</div>
+        <h3>Prestige your limbs</h3>
+        <p>Gold aura. Roman numerals. Earned in the gym, not bought in a shop. Certified glow-up.</p>
+        <div class="joke">Main character energy, per-limb. ✨</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="lineup">
+    <h3>See it in action 📱</h3>
+    <p class="sub">Real screens from the app. Every rep levels a body part, every skip lets the Couch Potatoes raid your town. Here's the loop:</p>
+    <div class="shot-showcase">
+      <div class="shot-item">
+        <div class="phone">
+          <img src="shots/levelup-levelup.png" width="780" height="1688" loading="lazy"
+               alt="LevelUp app — level-up reward screen with glowing hero, XP bar and Prestige" />
+          <span class="glare"></span>
+        </div>
+        <h4>⭐ Level up your limbs</h4>
+        <p>Train an arm → that arm grows. Gold aura, Prestige ranks, real XP earned in the gym.</p>
+      </div>
+      <div class="shot-item">
+        <div class="phone">
+          <img src="shots/levelup-workout.png" width="780" height="1688" loading="lazy"
+               alt="LevelUp app — quest workout screen, Save the Burning Village, camera record UI" />
+          <span class="glare"></span>
+        </div>
+        <h4>⚔️ Every workout is a quest</h4>
+        <p>“Save the Burning Village.” Camera-proof your reps, beat the challenge, push the horde back.</p>
+      </div>
+      <div class="shot-item">
+        <div class="phone">
+          <img src="shots/levelup-nutrition.png" width="840" height="1120" loading="lazy"
+               alt="LevelUp app — Provisions & Reckoning nutrition tracker, protein goal hit, combat buff active" />
+          <span class="glare"></span>
+        </div>
+        <h4>🍗 Eating well is a power-up</h4>
+        <p>Hit your protein and the realm rewards you — a real in-game buff: <em>−12% boss defense, +town HP.</em> Diet feeds the fight.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:48px;">Meet the Couch Potatoes 🥔</h3>
+    <p class="sub">Harmless — until you skip a day. Then they raid your town, occupy your limbs, and slow your gains until you fight back. But here's the thing: every one of them <em>used to be someone with a reason to start.</em> The potato is the “before.” Their story is the <em>why they finally moved.</em></p>
+    <div class="potatoes">
+      <!-- DBZ-chibi mini couch potatoes: bold brown outline, cel-shaded green, big glinting eyes -->
+      <svg viewBox="0 0 100 100"><g stroke="#2b1d14" stroke-width="5.5" stroke-linejoin="round"><ellipse cx="50" cy="52" rx="33" ry="38" fill="#8bc63e"/><path d="M64 20 a33 38 0 0 1 0 64 q16 -32 0 -64z" fill="#5f9e28" stroke="none"/><ellipse cx="40" cy="47" rx="9" ry="11" fill="#fff"/><ellipse cx="63" cy="45" rx="9" ry="11" fill="#fff"/><path d="M31 39 q9 -6 18 0 M54 37 q9 -6 18 0" fill="none" stroke-width="5"/><circle cx="41" cy="49" r="4" fill="#2b1d14" stroke="none"/><circle cx="64" cy="47" r="4" fill="#2b1d14" stroke="none"/><circle cx="39" cy="46" r="1.6" fill="#fff" stroke="none"/><circle cx="62" cy="44" r="1.6" fill="#fff" stroke="none"/><path d="M37 68 q13 9 26 0" fill="none"/></g></svg>
+      <svg viewBox="0 0 100 100"><g stroke="#2b1d14" stroke-width="5.5" stroke-linejoin="round"><ellipse cx="50" cy="52" rx="35" ry="40" fill="#7cb342"/><path d="M65 22 a35 40 0 0 1 0 62 q17 -31 0 -62z" fill="#4f8028" stroke="none"/><ellipse cx="40" cy="47" rx="10" ry="12" fill="#fff"/><ellipse cx="63" cy="45" rx="10" ry="12" fill="#fff"/><path d="M28 38 l22 8 M74 36 l-22 8" fill="none" stroke-width="6.5"/><circle cx="42" cy="50" r="4.5" fill="#c62828" stroke="none"/><circle cx="65" cy="48" r="4.5" fill="#c62828" stroke="none"/><path d="M35 68 q15 12 30 0 q-6 -8 -15 -8 q-9 0 -15 8z" fill="#3a1010"/></g></svg>
+      <svg viewBox="0 0 100 100"><g stroke="#2b1d14" stroke-width="5.5" stroke-linejoin="round"><ellipse cx="50" cy="52" rx="32" ry="37" fill="#a4cf5a"/><path d="M63 22 a32 37 0 0 1 0 60 q15 -30 0 -60z" fill="#6fa030" stroke="none"/><ellipse cx="40" cy="47" rx="9" ry="11" fill="#fff"/><ellipse cx="62" cy="45" rx="9" ry="11" fill="#fff"/><path d="M31 40 q9 -6 18 0 M53 38 q9 -6 18 0" fill="none" stroke-width="5"/><circle cx="41" cy="49" r="4" fill="#2b1d14" stroke="none"/><circle cx="63" cy="47" r="4" fill="#2b1d14" stroke="none"/><circle cx="39" cy="46" r="1.6" fill="#fff" stroke="none"/><circle cx="61" cy="44" r="1.6" fill="#fff" stroke="none"/><path d="M38 68 q12 8 24 0" fill="none"/></g></svg>
+      <svg viewBox="0 0 100 100"><g stroke="#2b1d14" stroke-width="5.5" stroke-linejoin="round"><ellipse cx="50" cy="52" rx="33" ry="38" fill="#6fa030"/><path d="M64 20 a33 38 0 0 1 0 64 q16 -32 0 -64z" fill="#4a7020" stroke="none"/><ellipse cx="40" cy="47" rx="9" ry="11" fill="#fff"/><ellipse cx="63" cy="45" rx="9" ry="11" fill="#fff"/><path d="M31 39 q9 -6 18 0 M54 37 q9 -6 18 0" fill="none" stroke-width="5"/><circle cx="43" cy="49" r="4" fill="#2b1d14" stroke="none"/><circle cx="61" cy="47" r="4" fill="#2b1d14" stroke="none"/><circle cx="41" cy="46" r="1.6" fill="#fff" stroke="none"/><circle cx="59" cy="44" r="1.6" fill="#fff" stroke="none"/><path d="M38 68 q12 6 24 0" fill="none"/></g></svg>
+      <svg viewBox="0 0 100 100"><g stroke="#2b1d14" stroke-width="5.5" stroke-linejoin="round"><ellipse cx="50" cy="52" rx="31" ry="36" fill="#b6bc60"/><path d="M62 22 a31 36 0 0 1 0 60 q15 -30 0 -60z" fill="#8a9440" stroke="none"/><ellipse cx="41" cy="47" rx="9" ry="11" fill="#fff"/><ellipse cx="62" cy="46" rx="9" ry="11" fill="#fff"/><path d="M32 40 q9 -6 18 0 M53 39 q9 -6 18 0" fill="none" stroke-width="5"/><circle cx="44" cy="48" r="4" fill="#2b1d14" stroke="none"/><circle cx="60" cy="48" r="4" fill="#2b1d14" stroke="none"/><circle cx="42" cy="45" r="1.6" fill="#fff" stroke="none"/><circle cx="58" cy="45" r="1.6" fill="#fff" stroke="none"/><path d="M40 68 q10 6 20 0" fill="none"/></g></svg>
+    </div>
+    <div class="potato-names">Spudzilla · Sir Loafs-A-Lot · The Big Nap · Couch Commander · Lil' Doomscroll</div>
+
+    <div class="backstories">
+      <div class="bs-card">
+        <div class="bs-head">
+          <svg viewBox="0 0 100 100"><g stroke="#2b1d14" stroke-width="5.5" stroke-linejoin="round"><ellipse cx="50" cy="52" rx="35" ry="40" fill="#7cb342"/><path d="M65 22 a35 40 0 0 1 0 62 q17 -31 0 -62z" fill="#4f8028" stroke="none"/><ellipse cx="40" cy="47" rx="10" ry="12" fill="#fff"/><ellipse cx="63" cy="45" rx="10" ry="12" fill="#fff"/><path d="M28 38 l22 8 M74 36 l-22 8" fill="none" stroke-width="6.5"/><circle cx="42" cy="50" r="4.5" fill="#c62828" stroke="none"/><circle cx="65" cy="48" r="4.5" fill="#c62828" stroke="none"/><path d="M35 68 q15 12 30 0 q-6 -8 -15 -8 q-9 0 -15 8z" fill="#3a1010"/></g></svg>
+          <div><div class="bs-name">Spudzilla</div><span class="bs-tag">The health scare</span></div>
+        </div>
+        <p>Biggest of the horde. One bad checkup — blood pressure through the roof, and the doctor's face said more than the numbers did. He's what happens when “I'll start Monday” finally runs out of Mondays.</p>
+        <p class="why">Beat him and you never have to get that phone call.</p>
+      </div>
+
+      <div class="bs-card">
+        <div class="bs-head">
+          <svg viewBox="0 0 100 100"><g stroke="#2b1d14" stroke-width="5.5" stroke-linejoin="round"><ellipse cx="50" cy="52" rx="33" ry="38" fill="#8bc63e"/><path d="M64 20 a33 38 0 0 1 0 64 q16 -32 0 -64z" fill="#5f9e28" stroke="none"/><ellipse cx="40" cy="47" rx="9" ry="11" fill="#fff"/><ellipse cx="63" cy="45" rx="9" ry="11" fill="#fff"/><path d="M31 39 q9 -6 18 0 M54 37 q9 -6 18 0" fill="none" stroke-width="5"/><circle cx="41" cy="49" r="4" fill="#2b1d14" stroke="none"/><circle cx="64" cy="47" r="4" fill="#2b1d14" stroke="none"/><path d="M37 70 q13 -8 26 0" fill="none"/></g></svg>
+          <div><div class="bs-name">Sir Loafs-A-Lot</div><span class="bs-tag">The heartbreak</span></div>
+        </div>
+        <p>Got left. Spent three months fused to the cushions, eating his feelings one delivery at a time. He's every 2 a.m. “new me” resolution ever made in the dark — and the glow-up is the best revenge.</p>
+        <p class="why">He fights you because deep down he knows: you're about to become the one who got away.</p>
+      </div>
+
+      <div class="bs-card">
+        <div class="bs-head">
+          <svg viewBox="0 0 100 100"><g stroke="#2b1d14" stroke-width="5.5" stroke-linejoin="round"><ellipse cx="50" cy="52" rx="32" ry="37" fill="#a4cf5a"/><path d="M63 22 a32 37 0 0 1 0 60 q15 -30 0 -60z" fill="#6fa030" stroke="none"/><path d="M31 46 q9 4 18 0 M53 44 q9 4 18 0" fill="none" stroke-width="5"/><circle cx="41" cy="48" r="2.4" fill="#2b1d14" stroke="none"/><circle cx="63" cy="46" r="2.4" fill="#2b1d14" stroke="none"/><path d="M40 66 q10 8 20 0" fill="none"/><path d="M70 30 l10 -4 M72 36 l10 0" fill="none" stroke-width="3.5"/></g></svg>
+          <div><div class="bs-name">The Big Nap</div><span class="bs-tag">Keeping up with the kids</span></div>
+        </div>
+        <p>Too tired to play, too tired to move — watching life happen from the couch while the kids ask “again?” and he says “in a minute.” The minute kept turning into next weekend.</p>
+        <p class="why">Beat him and you're not just <em>there</em> — you're in the game, chasing them around the yard.</p>
+      </div>
+
+      <div class="bs-card">
+        <div class="bs-head">
+          <svg viewBox="0 0 100 100"><g stroke="#2b1d14" stroke-width="5.5" stroke-linejoin="round"><ellipse cx="50" cy="52" rx="33" ry="38" fill="#6fa030"/><path d="M64 20 a33 38 0 0 1 0 64 q16 -32 0 -64z" fill="#4a7020" stroke="none"/><ellipse cx="40" cy="47" rx="9" ry="11" fill="#fff"/><ellipse cx="63" cy="45" rx="9" ry="11" fill="#fff"/><path d="M31 41 l18 -3 M54 39 l18 3" fill="none" stroke-width="5"/><circle cx="43" cy="49" r="4" fill="#2b1d14" stroke="none"/><circle cx="61" cy="47" r="4" fill="#2b1d14" stroke="none"/><path d="M40 68 l20 0" fill="none"/></g></svg>
+          <div><div class="bs-name">Couch Commander</div><span class="bs-tag">The doctor's ultimatum</span></div>
+        </div>
+        <p>Ran everyone else's life like a war room — barked the orders, made the calls, ignored his own body. Then the doctor handed him a number and a deadline. A control freak who finally had to aim it at himself.</p>
+        <p class="why">He's the one ultimatum you can't delegate. Take the wheel or lose it.</p>
+      </div>
+
+      <div class="bs-card">
+        <div class="bs-head">
+          <svg viewBox="0 0 100 100"><g stroke="#2b1d14" stroke-width="5.5" stroke-linejoin="round"><ellipse cx="50" cy="52" rx="31" ry="36" fill="#b6bc60"/><path d="M62 22 a31 36 0 0 1 0 60 q15 -30 0 -60z" fill="#8a9440" stroke="none"/><ellipse cx="41" cy="47" rx="9" ry="11" fill="#fff"/><ellipse cx="62" cy="46" rx="9" ry="11" fill="#fff"/><path d="M32 40 q9 -6 18 0 M53 39 q9 -6 18 0" fill="none" stroke-width="5"/><circle cx="44" cy="49" r="4" fill="#2b1d14" stroke="none"/><circle cx="60" cy="49" r="4" fill="#2b1d14" stroke="none"/><path d="M40 68 q10 5 20 -1" fill="none"/><rect x="30" y="58" width="14" height="9" rx="2" fill="#3a7bd5" stroke-width="3"/></g></svg>
+          <div><div class="bs-name">Lil' Doomscroll</div><span class="bs-tag">The confidence spiral</span></div>
+        </div>
+        <p>Youngest of the horde. Watches everyone else's highlight reel at 1 a.m. and feels a little smaller with every swipe. He's the “I could never look like that” voice on infinite loop.</p>
+        <p class="why">Defeat him and the only feed that matters becomes your own progress.</p>
+      </div>
+    </div>
+  </div>
+
+  <section class="faq">
+    <h2 class="section-title">Quick quests <span style="opacity:.6">(FAQ)</span></h2>
+    <div class="faq-list">
+      <details>
+        <summary>Is it actually free?</summary>
+        <p>Yes. Early access is free — no card, no cap. 🧢🚫 Pricing may change later, but Founding Defenders get in free.</p>
+      </details>
+      <details>
+        <summary>Do I need to already be fit?</summary>
+        <p>Nope. Start fat, start skinny, start from the couch — doesn't matter. Every workout morphs your character toward peak fit. You're the underdog hero. That's the whole arc.</p>
+      </details>
+      <details>
+        <summary>What actually happens if I skip a day?</summary>
+        <p>The Couch Potatoes raid your town, occupy your limbs, and slow your gains until you fight back. Consequences = motivation. (Still not cardio to doomscroll, sorry.)</p>
+      </details>
+      <details>
+        <summary>When does it launch?</summary>
+        <p>Soon™. Join the waitlist and you'll be first through the gates when the horde — er, the app — drops. ⚔️</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="final">
+    <h2 class="section-title">The town is counting on you. No pressure. (Total pressure.)</h2>
+    <p class="section-sub">Free to start. Get in before the horde does. It's giving hero arc. 🫡</p>
+    <a href="#join" class="btn-anchor">⚔️ Join early access — free</a>
+  </section>
+
+  <footer>
+    <span class="tag">LevelUp Fitness</span> — every rep is a quest, every skip is a raid. Touch grass, gain XP. 🌱
+  </footer>
+
+</div>
+
+<script>
+  (function () {
+    var form = document.getElementById("waitlist-form");
+    var success = document.getElementById("success");
+    var assurance = document.getElementById("assurance");
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var action = form.getAttribute("action");
+      if (!action || action.indexOf("REPLACE_ME") !== -1) {
+        // Not yet wired to the email provider — stay honest: do NOT fake a signup or drop the email.
+        var note = document.getElementById("assurance");
+        if (note) { note.textContent = "⚙️ Early-access signups open in just a moment — check back shortly!"; note.style.color = "#ffca3a"; }
+        var b0 = form.querySelector("button"); if (b0) { b0.disabled = true; b0.textContent = "Opening soon…"; }
+        console.warn("Waitlist form action not configured — set the email-provider endpoint in the form action.");
+        return;
+      }
+      var btn = form.querySelector("button");
+      btn.disabled = true; btn.textContent = "Enlisting…";
+      fetch(action, { method: "POST", body: new FormData(form), headers: { "Accept": "application/json" } })
+        .then(function (r) {
+          if (r.ok) { showSuccess(); }
+          else { btn.disabled = false; btn.textContent = "⚔️ Claim my early access"; alert("Something went wrong — try again."); }
+        })
+        .catch(function () { btn.disabled = false; btn.textContent = "⚔️ Claim my early access"; alert("Network error — try again."); });
+    });
+    function showSuccess() { form.style.display = "none"; assurance.style.display = "none"; success.classList.add("show"); }
+  })();
+</script>
+</body>
+</html>
