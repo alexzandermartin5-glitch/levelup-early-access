@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="index,follow" />
+<title>Privacy Policy — LevelUp Fitness</title>
+<meta name="description" content="How LevelUp Fitness handles your data: local-first, no data sales, opt-in analytics, and full export/delete controls." />
+<style>
+  :root{
+    --bg:#0f1117; --surface:#171a23; --surface2:#1e2230; --border:#2a2f3d;
+    --text:#e8ebf2; --dim:#a3abbd; --accent:#4dd6a8; --primary:#6c8cff; --danger:#ff6b6b;
+    --maxw:760px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    padding:0 20px 80px}
+  .wrap{max-width:var(--maxw);margin:0 auto}
+  header{padding:48px 0 8px;border-bottom:1px solid var(--border);margin-bottom:28px}
+  .badge{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--accent)}
+  h1{font-size:30px;line-height:1.2;margin:8px 0 6px}
+  h2{font-size:20px;margin:34px 0 10px;color:var(--text)}
+  h3{font-size:16px;margin:22px 0 6px;color:var(--text)}
+  p,li{color:var(--text)}
+  .dim{color:var(--dim)}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .meta{color:var(--dim);font-size:14px;margin-top:6px}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;
+    padding:16px 18px;margin:18px 0}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px;display:block;overflow-x:auto}
+  th,td{border:1px solid var(--border);padding:9px 11px;text-align:left;vertical-align:top}
+  th{background:var(--surface2);color:var(--dim);font-weight:700;white-space:nowrap}
+  ul{padding-left:20px}
+  li{margin:5px 0}
+  strong{color:#fff}
+  .pill{display:inline-block;background:var(--surface2);border:1px solid var(--border);
+    border-radius:999px;padding:2px 10px;font-size:12px;color:var(--dim);margin-right:6px}
+  footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);
+    color:var(--dim);font-size:13px}
+  .note{color:var(--dim);font-size:13px;font-style:italic}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="badge">LevelUp Fitness</span>
+    <h1>Privacy Policy</h1>
+    <p class="meta">Effective date: <strong>August 17, 2026</strong> · Last updated: <strong>August 17, 2026</strong></p>
+  </header>
+
+  <p>LevelUp Fitness (&ldquo;LevelUp&rdquo;, &ldquo;we&rdquo;) turns your workouts into an
+  RPG. We built it <strong>local-first</strong>: by default your data lives on your
+  device, not our servers. This policy explains what we handle, why, and the
+  controls you have.</p>
+
+  <h2>Who we are &amp; how to contact us</h2>
+  <div class="card">
+    <p><span class="pill">Data controller</span> LevelUp Fitness</p>
+    <p><span class="pill">Privacy contact</span> <a href="mailto:alexzandermartin5@gmail.com">alexzandermartin5@gmail.com</a></p>
+    <p class="dim">Use this address for any access, correction, or deletion request.</p>
+  </div>
+
+  <h2>What we collect and why</h2>
+  <table>
+    <thead>
+      <tr><th>Data</th><th>Where it lives</th><th>Purpose</th><th>Legal basis (GDPR)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Fitness profile (height, weight, age, sex, activity, goal)</td><td>Device; synced to your account if you sign up</td><td>Personalize calories/macros, difficulty, avatar</td><td>Contract / consent</td></tr>
+      <tr><td>Workout history, streaks, XP, kingdom, nutrition logs</td><td>Device; synced if signed up</td><td>Core app functionality</td><td>Contract</td></tr>
+      <tr><td>Recorded workout videos</td><td><strong>Device only — never uploaded</strong></td><td>Your private form-check vault</td><td>Stays local</td></tr>
+      <tr><td>Account email + password hash</td><td>Device (offline) or Supabase (cloud)</td><td>Authentication &amp; cross-device restore</td><td>Contract</td></tr>
+      <tr><td>Food barcode number (on scan)</td><td>Sent to Open Food Facts</td><td>Fetch nutrition facts</td><td>Legitimate interest</td></tr>
+      <tr><td>Anonymous product analytics (screens, feature use)</td><td>PostHog — <strong>only if you opt in</strong></td><td>Improve the app</td><td>Consent</td></tr>
+    </tbody>
+  </table>
+  <div class="card">
+    <p><strong>We do not</strong> sell your data, run third-party ad tracking, use an
+    advertising ID, or collect precise location. Analytics is anonymous and stays
+    off unless you turn it on.</p>
+  </div>
+
+  <h2>Age requirements</h2>
+  <p>You must meet the minimum age for your region to use LevelUp: <strong>16</strong>
+  in the EU/EEA/UK (GDPR), <strong>13</strong> in the US and elsewhere (COPPA). A
+  first-run age gate enforces this; under-age users cannot create an account.</p>
+
+  <h2>Third parties (sub-processors)</h2>
+  <ul>
+    <li><strong>Supabase</strong> — authentication + encrypted cloud storage of your
+      game state (only if you create an account). Protected by Row-Level Security.</li>
+    <li><strong>Open Food Facts</strong> — receives only a scanned barcode number,
+      no personal data.</li>
+    <li><strong>PostHog</strong> — anonymous product analytics, <strong>only after you
+      opt in</strong>.</li>
+  </ul>
+
+  <h2>Data retention</h2>
+  <ul>
+    <li><strong>Local data</strong> persists on your device until you delete it or uninstall.</li>
+    <li><strong>Cloud data</strong> (if you signed up) persists until you delete your account.</li>
+    <li>Deleting your account removes local data immediately and cloud data via server-side erasure.</li>
+  </ul>
+
+  <h2>Your rights</h2>
+  <p>At any time, from <strong>Settings</strong> in the app, you can:</p>
+  <ul>
+    <li><strong>Access / port your data</strong> — &ldquo;Export my data&rdquo; produces a portable JSON file.</li>
+    <li><strong>Erase everything</strong> — &ldquo;Delete my account &amp; all data&rdquo; wipes device + cloud data.</li>
+    <li><strong>Withdraw analytics consent</strong> — toggle analytics off anytime.</li>
+  </ul>
+  <p class="dim">EU/UK users also have the right to rectification, restriction,
+  objection, and to lodge a complaint with a supervisory authority. California
+  residents have the rights to know, delete, correct, and to opt out of
+  &ldquo;sale/sharing&rdquo; — we do <strong>not</strong> sell or share personal
+  information. To exercise any right, use the in-app controls or email the privacy
+  contact above.</p>
+
+  <h2>Security</h2>
+  <p>Passwords are salted and key-stretched (PBKDF2-HMAC-SHA256) on the local
+  backend and bcrypt-hashed server-side on Supabase. Session tokens are stored in
+  the device secure enclave (iOS Keychain / Android Keystore). Cloud rows are
+  isolated per user by Row-Level Security.</p>
+
+  <h2>Changes to this policy</h2>
+  <p>Material changes bump the in-app policy version and re-prompt you for consent.</p>
+
+  <footer>
+    <p>&copy; <span id="y"></span> LevelUp Fitness · <a href="terms.html">Terms of Service</a> ·
+    <a href="mailto:alexzandermartin5@gmail.com">alexzandermartin5@gmail.com</a></p>
+  </footer>
+</div>
+<script>document.getElementById('y').textContent=new Date().getFullYear();</script>
+</body>
+</html>
